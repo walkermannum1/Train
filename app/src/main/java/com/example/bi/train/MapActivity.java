@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.MapView;
@@ -20,10 +21,18 @@ public class MapActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SDKInitializer.initialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        mMapView = (MapView)findViewById(R.id.bmapView);
+        mBaiduMap = mMapView.getMap();
+        mBaiduMap.setMyLocationEnabled(true);
+
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(myListener);
+        initLocation();
+        mLocationClient.start();
     }
 
     private void initLocation() {
@@ -41,5 +50,25 @@ public class MapActivity extends Activity {
         option.SetIgnoreCacheException(false);
         option.setEnableSimulateGps(false);
         mLocationClient.setLocOption(option);
+    }
+
+    protected void onPause() {
+        mMapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mLocationClient.stop();
+        mBaiduMap.setMyLocationEnabled(false);
+        mMapView.onDestroy();
+        mMapView = null;
+        super.onDestroy();
     }
 }
