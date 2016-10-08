@@ -56,12 +56,11 @@ public class MapActivity extends Activity {
     private void setLovationManager() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         List<String> providerList = locationManager.getProviders(true);
-        if (providerList.contains(LocationManager.GPS_PROVIDER)) {
-            provider = LocationManager.GPS_PROVIDER;
-        } else if (providerList.contains(LocationManager.NETWORK_PROVIDER)) {
+        if (providerList.contains(LocationManager.NETWORK_PROVIDER)) {
             provider = LocationManager.NETWORK_PROVIDER;
+        } else if (providerList.contains(LocationManager.GPS_PROVIDER)) {
+            provider = LocationManager.GPS_PROVIDER;
         } else {
-            //当前没有可用的位置提供器时，弹出Toast提示
             Toast.makeText(this, "没有可用的位置提供器", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -132,7 +131,7 @@ public class MapActivity extends Activity {
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setCoorType("bd0911");
+        option.setCoorType("bd09ll");
         int span = 1000;
         option.setScanSpan(span);
         option.setIsNeedAddress(true);
