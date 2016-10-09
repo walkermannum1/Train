@@ -5,6 +5,12 @@ import android.util.Log;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 
 import java.util.List;
 
@@ -13,6 +19,16 @@ import java.util.List;
  */
 
 public class MyLocationListener implements BDLocationListener {
+    //private MapView mMapView;
+    //BaiduMap mBaiduMap;
+    //boolean isFirstLoc = true;
+
+    /*public static LatLng getll() {
+        BDLocation location = null;
+        LatLng ll = new LatLng(location.getLatitude(),
+                location.getLongitude());
+        return ll;
+    }*/
     @Override
     public void onReceiveLocation(BDLocation location) {
         StringBuffer sb = new StringBuffer(256);
@@ -62,6 +78,24 @@ public class MyLocationListener implements BDLocationListener {
         }
         sb.append("\nlocationdescribe : ");
         sb.append(location.getLocationDescribe());
+
+        /*if (location == null || mMapView == null) {
+            return;
+        }
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(location.getRadius())
+                // 此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(100).latitude(location.getLatitude())
+                .longitude(location.getLongitude()).build();
+        mBaiduMap.setMyLocationData(locData);
+        if (isFirstLoc) {
+            isFirstLoc = false;
+            LatLng ll = new LatLng(location.getLatitude(),
+                    location.getLongitude());
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(ll).zoom(18.0f);
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        }*/
         List<Poi> list = location.getPoiList();
         if (list != null) {
             sb.append("\npoilist size = : ");
